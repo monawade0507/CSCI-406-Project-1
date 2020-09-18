@@ -101,8 +101,8 @@ public class knapsack {
 
     if (l == r) {
       permutations.addElement(str);
-      Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
-      System.out.println("Finished a permutation @ " + beginTimestamp);
+      //Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
+      //System.out.println("Finished a permutation @ " + beginTimestamp);
     }
     else {
       for (int i = l; i <= r; i++) {
