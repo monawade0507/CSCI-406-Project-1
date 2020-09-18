@@ -129,24 +129,78 @@ public class knapsack {
   } // end of swap function  ******************************************************************************
 
   public static void exhaustive () {  // exhaustive function **********************************************
+
+    String finalKnapsack = "";
+    int bestValue = 0;
+    int bestWeight = 0;
+    int subsetValue = 0;
+    int subsetWeight = 0;
+    String subset = "";
+    Vector<String> powerSet;
+
+
     // begin Timestamp
     Timestamp beginTimestamp = new Timestamp(System.currentTimeMillis());
     System.out.println("Begin time: " + beginTimestamp);
 
-    permutations = new Vector<String>();
-    // create string from n input coordinate points
-    String nPermute = "";
+    // Find the power set --> https://www.geeksforgeeks.org/power-set/
+    powerSet = new Vector<String>();
+    String set = "";
     for(int i = 0; i < numOfItems; i++) {
-      nPermute += Integer.toString(i);
+      set += Integer.toString(i);
+    }
+    int setSize = set.length();
+    /*set_size of power set of a set with set_size n is (2**n -1)*/
+    long powSetSize =  (long)Math.pow(2, setSize);
+    int counter, j;
+    for(counter = 0; counter <  powSetSize; counter++) {
+      String subSet = "";
+      for(j = 0; j < setSize; j++)
+      {
+        /* Check if jth bit in the counter is set If set then
+                print jth element from set */
+        if((counter & (1 << j)) > 0) {
+          subSet += set.charAt(j);
+        }
+      }
+      powerSet.addElement(subSet);
+    }
+    /** Algorithm 1 Exhaustive Solution
+// implement decision to decide on the best set of a knapsack
+          knapsack = { }
+          bestValue = 0
+          for each subset in PowerSet do
+          subsetValue = 0
+          subsetWeight = 0
+            for each item in subset do
+              subsetValue += item.value
+              subsetWeight += item.weight
+          if subsetWeight ≤ W AND subsetValue > bestValue then
+            bestValue = subsetValue
+            knapsack = subset
+    */
+    for (int i = 0; i < powerSet.size(); i++) {
+      subsetValue = 0;
+      subsetWeight = 0;
+      subset = powerSet.elementAt(i);
+      for (j = 0; j < subset.length(); j++) {
+        // nodes.elementAt(Integer.parseInt(Character.toString(str.charAt(0)))).x
+        subsetValue += items.elementAt(Integer.parseInt(Character.toString(subset.charAt(j)))).v;
+        subsetWeight += items.elementAt(Integer.parseInt(Character.toString(subset.charAt(j)))).w;
+        System.out.println("Permutation: " + subset + " has Value: " + subsetValue + " and Weight: " + subsetWeight);
+      }
+      if (subsetWeight <= maxWeight && subsetValue > bestValue) {
+        bestValue = subsetValue;
+        bestWeight = subsetWeight;
+        finalKnapsack = subset;
+      }
     }
 
-    // Determine all of the permutations and populate permutations Vector
-    permute(nPermute, 0, nPermute.length() - 1);
-    System.out.println("Number of permutations found: " +  permutations.size());
+
+    // Final stamp to record how long the algorithm took
     Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
     System.out.println("End time: " + endTimestamp);
-    long diff = endTimestamp.getTime() - beginTimestamp.getTime();
-    System.out.println("Time diff: " + diff);
+    System.out.println("Best subset for KnapSack: " + finalKnapsack + " has Value: " + bestValue + " and Weight: " + bestWeight);
   }  // end of exhaustive function ************************************************************************
 
 
