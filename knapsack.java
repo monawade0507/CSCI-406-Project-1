@@ -143,6 +143,10 @@ public class knapsack {
     // Determine all of the permutations and populate permutations Vector
     permute(nPermute, 0, nPermute.length() - 1);
     System.out.println("Number of permutations found: " +  permutations.size());
+    Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+    System.out.println("End time: " + endTimestamp);
+    long diff = endTimestamp.getTime() - beginTimestamp.getTime();
+    System.out.println("Time diff: " + diff);
   }  // end of exhaustive function ************************************************************************
 
 
